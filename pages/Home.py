@@ -8,7 +8,7 @@ st.markdown("""
     
 """,unsafe_allow_html=True)
 btn = st.button("Get started",type="primary")
-st.image("img.jpg")
+st.image("assets/img.jpg")
 
 if btn:
-  st.switch_page("About.py") 
+  st.switch_page("pages/Login.py") 

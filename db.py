@@ -9,18 +9,48 @@ try:
 except Exception as e:
   print(e)
 
-def insert_user(data):
+def api_response(data):
+  return {
+    "data":data,
+    "status": True
+  }
+
+def api_error(err):
+  return {
+    "data":err or None,
+    "status": False
+  }
+
+def register_user(data):
   try:
     cur.execute("""
       INSERT INTO users (name,email,password) 
       VALUES (%s,%s,%s);
     """,data)
     conn.commit()
-    print("Data inserted sucessfully")
-    return True
+    print("User registered sucessfully")
+    return api_response(None)
   except Exception as e:
     print(e)
-    return False
+    return api_error(e)
   
 
-insert_user(("ani","a2@gmail.com","123456"))
+def login_user(data):
+  try:
+    cur.execute("""
+      SELECT * FROM users 
+      WHERE email = %s AND password = %s;
+    """,data)
+    user_details = cur.fetchone()
+    print(user_details)
+    if user_details == None:
+      return api_error("No user found")
+    print("Login sucessfully")
+    return api_response(user_details)
+  except Exception as e:
+    print(e)
+    return api_error(e)
+  
+
+# login_user(("a2@gmail.com","123456"))
+# register_user(("Aniket","a3@gmail.com","123456"))

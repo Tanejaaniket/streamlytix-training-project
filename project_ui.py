@@ -1,4 +1,12 @@
 import streamlit as st
 
-pg = st.navigation(["Home.py", "About.py"],position="top")
+pg = st.navigation(
+  ["pages/Home.py",
+  "pages/About.py",
+  "pages/Login.py",
+  "pages/Register.py",
+  "pages/Content.py",
+  ],position="hidden"
+)
+
 pg.run()
