@@ -1,4 +1,9 @@
 import streamlit as st
+from db import register_user
+from user import user_info
+
+if user_info.user_info["name"] != None:
+  st.switch_page("pages/Content.py")
 
 st.markdown("""
     <style>
@@ -16,4 +21,18 @@ with st.form("form2"):
   submit_btn = st.form_submit_button("Submit",use_container_width=True,type="primary")
   st.page_link("pages/Login.py",label="Already had a Streamlytix account? Click here to login")
 
-  
+if submit_btn:
+  if (not name):
+    st.error("Name is required")
+  elif ((not email) or (email.count("@") == 0)):
+    st.error("Valid email id is required")
+  elif ((not password) or (len(password) < 8)):
+    st.error("Password must atleast include 8 characters")
+  else:  
+    user = register_user((name,email,password))
+    if user["status"]:
+      user_info.set_user_info((0,name,email,password))
+      st.success("User registered sucessfull")
+      st.switch_page("pages/Content.py")
+    else:
+      st.error("Unable to register please try again.")

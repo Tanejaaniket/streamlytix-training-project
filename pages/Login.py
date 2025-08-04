@@ -1,6 +1,11 @@
 import streamlit as st
 from db import login_user
 from user import user_info
+
+
+if user_info.user_info["name"] != None:
+  st.switch_page("pages/Content.py")
+
 st.markdown("""
     <style>
               
@@ -16,10 +21,15 @@ with st.form("form1"):
   st.page_link("pages/Register.py",label="New to Streamlytix? Click here to register")
 
 if submit_btn:
-  user = login_user((email,password))
-  if user["status"]:
-    user_info.set_user_info(user["data"])
-    st.success("User login sucessfull")
-    st.switch_page("pages/Content.py")
-  else:
-    st.error("Unable to log in please recheck your email and password")
+  if ((not email) or (email.count("@") == 0)):
+    st.error("Valid email id is required")
+  elif ((not password) or (len(password) < 8)):
+    st.error("Password must atleast include 8 characters")
+  else:  
+    user = login_user((email,password))
+    if user["status"]:
+      user_info.set_user_info(user["data"])
+      st.success("User login sucessfull")
+      st.switch_page("pages/Content.py")
+    else:
+      st.error("Unable to log in please recheck your email and password")

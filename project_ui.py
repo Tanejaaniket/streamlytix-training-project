@@ -1,11 +1,18 @@
 import streamlit as st
 
+#TODO: Add about us,private routes security 
+
 pg = st.navigation(
   ["pages/Home.py",
   "pages/About.py",
   "pages/Login.py",
   "pages/Register.py",
   "pages/Content.py",
+  "pages/Movies.py",
+  "pages/Series.py",
+  "pages/Search.py",
+  "pages/Analytics.py",
+  "pages/Account_Settings.py",
   ],position="hidden"
 )
 
