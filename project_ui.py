@@ -13,6 +13,8 @@ pg = st.navigation(
   "pages/Search.py",
   "pages/Analytics.py",
   "pages/Account_Settings.py",
+  "pages/Watchlist.py",
+  "pages/Already_Watched.py",
   ],position="hidden"
 )
 

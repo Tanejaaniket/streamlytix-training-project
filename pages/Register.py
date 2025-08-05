@@ -1,9 +1,13 @@
 import streamlit as st
 from db import register_user
-from user import user_info
+import pandas as pd
+from user.user_info import init_user,init_watched_content
 
-if user_info.user_info["name"] != None:
+init_user()
+
+if st.session_state.logged_in:
   st.switch_page("pages/Content.py")
+  st.stop()
 
 st.markdown("""
     <style>
@@ -31,7 +35,10 @@ if submit_btn:
   else:  
     user = register_user((name,email,password))
     if user["status"]:
-      user_info.set_user_info((0,name,email,password))
+      st.session_state.logged_in = True
+      st.session_state.name = name
+      st.session_state.email = email
+      init_watched_content()
       st.success("User registered sucessfull")
       st.switch_page("pages/Content.py")
     else:
