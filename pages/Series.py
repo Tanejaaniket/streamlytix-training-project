@@ -13,7 +13,7 @@ for key,image,name,rating,date in zip(dummy_df["id"],dummy_df["poster_path"],dum
   with cols[i]:
     st.image(f"https://image.tmdb.org/t/p/w500/{image}",width=300)
     st.markdown(f"""<h5 style='height: 80px; padding-left: 2px;'>{name}</h5><div style='display:flex; justify-content: space-between; padding-left:2px;'><p>Rating: {round(float(rating),1)}</p><p>{date}</p></div>""",unsafe_allow_html=True)
-    row = st.session_state.user_watched_content[st.session_state.user_watched_content["id"] == key]
+    row = st.session_state.user_watched_series[st.session_state.user_watched_series["id"] == key]
     btn_watch = None
     btn_unwatch = None
     if row.empty:
@@ -23,11 +23,11 @@ for key,image,name,rating,date in zip(dummy_df["id"],dummy_df["poster_path"],dum
 
   if btn_watch:
     row = dummy_df[dummy_df["id"] == key]
-    st.session_state.user_watched_content = pd.concat([st.session_state.user_watched_content,row],ignore_index=True)
-    st.session_state.user_watched_content.to_csv(f"user/content/{st.session_state.email}.csv")
+    st.session_state.user_watched_series = pd.concat([st.session_state.user_watched_series,row],ignore_index=True)
+    st.session_state.user_watched_series.to_csv(f"user/content/series/{st.session_state.email}.csv")
   if btn_unwatch:
-    st.session_state.user_watched_content = st.session_state.user_watched_content[~(st.session_state.user_watched_content["id"] == key)]
-    st.session_state.user_watched_content.to_csv(f"user/content/{st.session_state.email}.csv")
+    st.session_state.user_watched_series = st.session_state.user_watched_series[~(st.session_state.user_watched_series["id"] == key)]
+    st.session_state.user_watched_series.to_csv(f"user/content/series/{st.session_state.email}.csv")
   i += 1
 
 with st.sidebar:
