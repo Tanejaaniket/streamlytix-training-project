@@ -1,13 +1,25 @@
 import streamlit as st
 import pandas as pd
+from load_data import shows as chunks
+
+if "series_chunk_index" not in st.session_state:
+    st.session_state.series_chunk_index = 0
 
 st.header("TV shows")
-df = pd.read_csv("datasets/TMDB_tv_dataset_v3.csv")
-dummy_df = df.head(50)
+with st.sidebar:
+  st.page_link("pages/Content.py",label="How to get started")
+  st.page_link("pages/Series.py",label="Shows",icon="🎬")
+  st.page_link("pages/Movies.py",label="Movies",icon="🎥")
+  st.page_link("pages/Search.py",label="Search",icon="🔎")
+  st.page_link("pages/Analytics.py",label="Insights / Analytics",icon="📊")
+  st.page_link("pages/Already_Watched.py",label="View Already Watched",icon="💾")
+  st.page_link("pages/Account_Settings.py",label="Account Settings",icon="🔐")
 
 cols = st.columns(3)
 i = 0
-for key,image,name,rating,date in zip(dummy_df["id"],dummy_df["poster_path"],dummy_df["name"],dummy_df["vote_average"],dummy_df["first_air_date"]):
+df = chunks[st.session_state.series_chunk_index]
+
+for key,image,name,rating,date in zip(df["id"],df["poster_path"],df["name"],df["vote_average"],df["first_air_date"]):
   i = i % 3
   
   with cols[i]:
@@ -22,7 +34,7 @@ for key,image,name,rating,date in zip(dummy_df["id"],dummy_df["poster_path"],dum
       btn_unwatch = st.button("Unwatch",key=key,use_container_width=True)
 
   if btn_watch:
-    row = dummy_df[dummy_df["id"] == key]
+    row = df[df["id"] == key]
     st.session_state.user_watched_series = pd.concat([st.session_state.user_watched_series,row],ignore_index=True)
     st.session_state.user_watched_series.to_csv(f"user/content/series/{st.session_state.email}.csv")
   if btn_unwatch:
@@ -30,11 +42,18 @@ for key,image,name,rating,date in zip(dummy_df["id"],dummy_df["poster_path"],dum
     st.session_state.user_watched_series.to_csv(f"user/content/series/{st.session_state.email}.csv")
   i += 1
 
-with st.sidebar:
-  st.page_link("pages/Content.py",label="How to get started")
-  st.page_link("pages/Series.py",label="Shows",icon="🎬")
-  st.page_link("pages/Movies.py",label="Movies",icon="🎥")
-  st.page_link("pages/Search.py",label="Search",icon="🔎")
-  st.page_link("pages/Analytics.py",label="Insights / Analytics",icon="📊")
-  st.page_link("pages/Analytics.py",label="View Already Watched",icon="💾")
-  st.page_link("pages/Account_Settings.py",label="Account Settings",icon="🔐")
+total_chunks = len(chunks)
+col1, col2, col3 = st.columns([1, 2, 1])
+with col1:
+  st.button("⬅️ Previous", 
+  on_click=lambda: st.session_state.update(series_chunk_index=st.session_state.series_chunk_index - 1),
+  disabled=st.session_state.series_chunk_index == 0)
+
+with col3:
+  st.button("Next ➡️", 
+  on_click=lambda: st.session_state.update(series_chunk_index=st.session_state.series_chunk_index + 1),
+  disabled=st.session_state.series_chunk_index >= total_chunks - 1)
+
+with col2:
+  st.markdown(f"<div style='text-align:center;'>Page {st.session_state.series_chunk_index + 1} of {total_chunks}</div>", unsafe_allow_html=True)
+
