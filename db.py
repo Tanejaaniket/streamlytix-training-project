@@ -52,5 +52,42 @@ def login_user(data):
     return api_error(e)
   
 
+def verify_user(data):
+  try:
+    cur.execute("""
+      SELECT * FROM users 
+      WHERE email = %s AND password = %s
+    """,data)
+    user_details = cur.fetchone()
+    if user_details == None:
+      return api_error("No such user found")
+    print("verification sucessfully",user_details)
+    return api_response(user_details)
+  except Exception as e:
+    print(e)
+    return api_error(e)
+
+
+def update_user_account(data):
+  try:
+    res = verify_user((data[len(data)-2],data[len(data)-1]))
+    print(res)
+    if res["status"]:
+      cur.execute("""
+        UPDATE users
+        SET name = %s,email = %s,password = %s
+        WHERE email = %s
+      """,(data[0],data[1],data[2],data[3]))
+      conn.commit()
+      print("Update successfull")
+      return api_response("")
+    else:
+      print("User not verified")
+      return api_error("User not verified")
+  except Exception as e:
+    print(e)
+    return api_error(e)
+
+# update_user_account(("Aniket Taneja","abc@gmail.com","123456789","ac@gmail.com"))
 # login_user(("a2@gmail.com","123456"))
 # register_user(("Aniket","a3@gmail.com","123456"))
