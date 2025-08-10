@@ -1,21 +1,12 @@
 import streamlit as st
 from load_data import shows,movies
 import pandas as pd
-
+from component.sidebar import sidebar
 st.header("Search for any Show/Movie")
 if "search_chunk_index" not in st.session_state:
     st.session_state.search_chunk_index = 0
 
-with st.sidebar:
-  st.page_link("pages/Content.py",label="How to get started")
-  st.page_link("pages/Series.py",label="Shows",icon="🎬")
-  st.page_link("pages/Movies.py",label="Movies",icon="🎥")
-  st.page_link("pages/Search.py",label="Search",icon="🔎")
-  st.page_link("pages/Analytics.py",label="Insights / Analytics",icon="📊")
-  st.page_link("pages/Already_Watched.py",label="View Already Watched",icon="💾")
-  st.page_link("pages/Account_Settings.py",label="Account Settings",icon="🔐")
-
-
+sidebar()
 col1,col2 = st.columns([4,2])
 query = ""
 option = None

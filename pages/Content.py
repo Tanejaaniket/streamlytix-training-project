@@ -1,8 +1,9 @@
 import streamlit as st
+from component.sidebar import sidebar
 
 if "name" not in st.session_state:
   st.switch_page("pages/Login.py")
-
+sidebar()
 st.header(f"👋🏻 Hi there {st.session_state.name} Team Streamlytix welcomes you...")  
 st.markdown("""
   > Welcome to the world of movies and tv shows. Here are some quick instructions to help you get started to get insights about your watch history :
@@ -18,11 +19,3 @@ st.markdown("""
             
 """,unsafe_allow_html=True)
 
-with st.sidebar:
-  st.page_link("pages/Content.py",label="How to get started")
-  st.page_link("pages/Series.py",label="Shows",icon="🎬")
-  st.page_link("pages/Movies.py",label="Movies",icon="🎥")
-  st.page_link("pages/Search.py",label="Search",icon="🔎")
-  st.page_link("pages/Analytics.py",label="Insights / Analytics",icon="📊")
-  st.page_link("pages/Analytics.py",label="View Already Watched",icon="💾")
-  st.page_link("pages/Account_Settings.py",label="Account Settings",icon="🔐")

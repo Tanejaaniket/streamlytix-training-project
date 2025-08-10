@@ -1,20 +1,12 @@
 import streamlit as st
 import pandas as pd
 from load_data import shows as chunks
-
+from component.sidebar import sidebar
 if "series_chunk_index" not in st.session_state:
     st.session_state.series_chunk_index = 0
 
 st.header("TV shows")
-with st.sidebar:
-  st.page_link("pages/Content.py",label="How to get started")
-  st.page_link("pages/Series.py",label="Shows",icon="🎬")
-  st.page_link("pages/Movies.py",label="Movies",icon="🎥")
-  st.page_link("pages/Search.py",label="Search",icon="🔎")
-  st.page_link("pages/Analytics.py",label="Insights / Analytics",icon="📊")
-  st.page_link("pages/Already_Watched.py",label="View Already Watched",icon="💾")
-  st.page_link("pages/Account_Settings.py",label="Account Settings",icon="🔐")
-
+sidebar()
 cols = st.columns(3)
 i = 0
 df = chunks[st.session_state.series_chunk_index]

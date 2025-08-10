@@ -71,7 +71,6 @@ def verify_user(data):
 def update_user_account(data):
   try:
     res = verify_user((data[len(data)-2],data[len(data)-1]))
-    print(res)
     if res["status"]:
       cur.execute("""
         UPDATE users
