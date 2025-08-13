@@ -28,6 +28,7 @@ for key,image,name,rating,date in zip(df["id"],df["poster_path"],df["title"],df[
 
   if btn_watch:
     row = df[df["id"] == key]
+    print(row)
     st.session_state.user_watched_movies = pd.concat([st.session_state.user_watched_movies,row],ignore_index=True)
     st.session_state.user_watched_movies.to_csv(f"user/content/movies/{st.session_state.email}.csv")
   if btn_unwatch:

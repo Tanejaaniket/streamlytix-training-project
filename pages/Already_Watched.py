@@ -7,7 +7,7 @@ option = st.selectbox(label="Select type of content",options=["Movies","Shows"])
 if option == "Shows":   
   df = pd.read_csv(f"user/content/series/{st.session_state.email}.csv") 
   if df.empty:
-    st.write("You haven't watched anything yet. Marked as watched to get started")
+    st.error("You haven't watched anything yet. Marked as watched to get started")
   else:
     st.header("Already watched TV shows")
     cols = st.columns(3)
@@ -39,7 +39,7 @@ if option == "Shows":
 elif option == "Movies":
   df = pd.read_csv(f"user/content/movies/{st.session_state.email}.csv") 
   if df.empty:
-    st.write("You haven't watched anything yet. Marked as watched to get started")
+    st.error("You haven't watched anything yet. Marked as watched to get started")
   else:
     st.header("Already watched movies")
     cols = st.columns(3)
