@@ -2,6 +2,10 @@ import streamlit as st
 import pandas as pd
 from load_data import shows as chunks
 from component.sidebar import sidebar
+
+if "name" not in st.session_state:
+  st.switch_page("pages/Login.py")
+  
 if "series_chunk_index" not in st.session_state:
     st.session_state.series_chunk_index = 0
 

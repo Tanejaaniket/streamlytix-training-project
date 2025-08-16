@@ -4,6 +4,9 @@ import os
 import time
 from component.sidebar import sidebar
 
+if "name" not in st.session_state:
+  st.switch_page("pages/Login.py")
+  
 sidebar()
 
 if "verified" not in st.session_state:

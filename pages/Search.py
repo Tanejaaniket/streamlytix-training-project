@@ -2,6 +2,10 @@ import streamlit as st
 from load_data import shows,movies
 import pandas as pd
 from component.sidebar import sidebar
+
+if "name" not in st.session_state:
+  st.switch_page("pages/Login.py")
+  
 st.header("Search for any Show/Movie")
 if "search_chunk_index" not in st.session_state:
     st.session_state.search_chunk_index = 0

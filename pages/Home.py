@@ -1,5 +1,8 @@
 import streamlit as st
 
+if "name" in st.session_state:
+  st.switch_page("pages/Content.py")
+  
 st.title("Welcome to Streamlytix")
 st.markdown("""
   <p>This is a data analaysis project built with the help of Python and its various libraries and frameworks mainly Pandas, Numpy, Matplotlib, Seaborn, Plotly-express. The project's ui is built with the help of Streamlit.</p>

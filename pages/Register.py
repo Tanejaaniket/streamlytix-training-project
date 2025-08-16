@@ -3,6 +3,9 @@ from db import register_user
 import pandas as pd
 from user.user_info import init_user,init_watched_content
 
+if "name" in st.session_state:
+  st.switch_page("pages/Content.py")
+  
 init_user()
 
 if st.session_state.logged_in:

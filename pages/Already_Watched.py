@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 from component.sidebar import sidebar
 
+if "name" not in st.session_state:
+  st.switch_page("pages/Login.py")  
 sidebar()
 option = st.selectbox(label="Select type of content",options=["Movies","Shows"])
 if option == "Shows":   

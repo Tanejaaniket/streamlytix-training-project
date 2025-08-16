@@ -3,6 +3,7 @@ from component.sidebar import sidebar
 
 if "name" not in st.session_state:
   st.switch_page("pages/Login.py")
+  
 sidebar()
 st.header(f"👋🏻 Hi there {st.session_state.name} Team Streamlytix welcomes you...")  
 st.markdown("""

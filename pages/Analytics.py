@@ -6,6 +6,9 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import seaborn as sns
 
+if "name" not in st.session_state:
+  st.switch_page("pages/Login.py")
+  
 if "email" not in st.session_state:
   st.switch_page("pages/Login.py")
 
