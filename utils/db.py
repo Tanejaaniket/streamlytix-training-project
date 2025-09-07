@@ -1,6 +1,6 @@
-import os
 import psycopg2
-# Get the connection string from the environment variable
+
+# Neon DB connection string
 conn_string = "postgresql://neondb_owner:npg_mBWGJ3ZoFM9Q@ep-old-recipe-a1odeuyt-pooler.ap-southeast-1.aws.neon.tech/users?sslmode=require&channel_binding=require"
 
 try:
@@ -9,17 +9,20 @@ try:
 except Exception as e:
   print(e)
 
+
 def api_response(data):
   return {
     "data":data,
     "status": True
   }
 
+
 def api_error(err):
   return {
     "data":err or None,
     "status": False
   }
+
 
 def register_user(data):
   try:
@@ -66,7 +69,7 @@ def verify_user(data):
   except Exception as e:
     print(e)
     return api_error(e)
-
+  
 
 def update_user_account(data):
   try:
@@ -86,7 +89,3 @@ def update_user_account(data):
   except Exception as e:
     print(e)
     return api_error(e)
-
-# update_user_account(("Aniket Taneja","abc@gmail.com","123456789","ac@gmail.com"))
-# login_user(("a2@gmail.com","123456"))
-# register_user(("Aniket","a3@gmail.com","123456"))

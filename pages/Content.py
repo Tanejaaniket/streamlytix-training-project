@@ -1,12 +1,14 @@
 import streamlit as st
 from component.sidebar import sidebar
-import subprocess
 
-if "name" not in st.session_state:
+#Private route protection
+if "name" not in st.session_state or "email" not in st.session_state:
   st.switch_page("pages/Login.py")
-  
+
+#Loads sidebar  
 sidebar()
 
+#Page content
 st.header(f"👋🏻 Hi there {st.session_state.name} Team Streamlytix welcomes you...")  
 st.markdown("""
   > Welcome to the world of movies and tv shows. Here are some quick instructions to help you get started to get insights about your watch history :
@@ -17,8 +19,6 @@ st.markdown("""
   >   - Enjoy your valuable insights.
   > ---          
   > _Note: You can always search for your favourite movies and tv shows from the search option in the sidebar._
-  >
-
-            
+  >          
 """,unsafe_allow_html=True)
 

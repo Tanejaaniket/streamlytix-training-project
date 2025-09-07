@@ -1,30 +1,38 @@
 import streamlit as st
-from db import update_user_account,verify_user
+from utils.db import update_user_account,verify_user
 import os
 import time
 from component.sidebar import sidebar
 
-if "name" not in st.session_state:
+# Checks if user is not logged in then redirects him to Login page (private route)
+if "name" not in st.session_state or "email" not in st.session_state:
   st.switch_page("pages/Login.py")
   
+#loads sidebar
 sidebar()
 
+#Verifies user with password
 if "verified" not in st.session_state:
   st.session_state.verified = False
 
+#Adding user details to session state from db updation
 if "user_details" not in st.session_state:
   st.session_state.user_details = None
 
-password = None
 
+password = None
 st.header("Update account details")
+
+#Password verification form
 if not st.session_state.verified:
   with st.form("verification"):
     password = st.text_input("Enter your password to update account details",type="password")
     btn = st.form_submit_button("Submit",type="primary",use_container_width=True)
+ 
   if btn:
     res = verify_user((st.session_state.email,password))
     st.session_state.update(user_details = res["data"])
+    
     if res["status"]:
       st.session_state.update(verified = True)
       st.success("Verification successfull")
@@ -32,6 +40,7 @@ if not st.session_state.verified:
       st.session_state.update(verified = False)
       st.success("Unable to verify! please recheck your password")
 
+#User details updation form
 if ((st.session_state.verified) and (st.session_state.user_details != None)):
   with st.form("update_form"):
     st.markdown("""
@@ -41,6 +50,7 @@ if ((st.session_state.verified) and (st.session_state.user_details != None)):
     new_email = st.text_input("Enter your Email: ",placeholder="Email *",value=st.session_state.user_details[2])
     new_password = st.text_input("Enter your Password: ",type="password",placeholder="Password* ",value=st.session_state.user_details[3])
     submit_btn = st.form_submit_button("Submit",use_container_width=True,type="primary")
+ 
   if submit_btn:
     if (not new_name):
       st.error("Name is required")
@@ -50,6 +60,7 @@ if ((st.session_state.verified) and (st.session_state.user_details != None)):
       st.error("Password must atleast include 8 characters")
     else:
       user = update_user_account((new_name,new_email,new_password,st.session_state.user_details[2],st.session_state.user_details[3]))
+      
       if user["status"]:
         st.session_state.update(name = new_name)
         st.session_state.update(email = new_email)

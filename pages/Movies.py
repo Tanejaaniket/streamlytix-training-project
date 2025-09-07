@@ -1,58 +1,39 @@
 import streamlit as st
-import pandas as pd
-from load_data import movies as chunks
+from utils.helper import get_movie_chunks
 from component.sidebar import sidebar
+from component.content_cards import movie_card_with_buttons
 
-if "name" not in st.session_state:
+#Private route protection
+if "name" not in st.session_state or "email" not in st.session_state:
   st.switch_page("pages/Login.py")
-  
+
+#Initialize pagination index  
 if "movie_chunk_index" not in st.session_state:
     st.session_state.movie_chunk_index = 0
 
-st.header("Movies")
+#Load sidebar
 sidebar()
 
-cols = st.columns(3)
-i = 0
+st.header("Movies")
+
+#Loads movies as 50-50 chunks from dataframe
+chunks = get_movie_chunks()
 df = chunks[st.session_state.movie_chunk_index]
 
-for key,image,name,rating,date in zip(df["id"],df["poster_path"],df["title"],df["vote_average"],df["release_date"]):
-  i = i % 3
-  
-  with cols[i]:
-    st.image(f"https://image.tmdb.org/t/p/w500/{image}",width=300)
-    st.markdown(f"""<h5 style='height: 80px; padding-left: 2px;'>{name}</h5><div style='display:flex; justify-content: space-between; padding-left:2px;'><p>Rating: {round(float(rating),1)}</p><p>{date}</p></div>""",unsafe_allow_html=True)
-    row = st.session_state.user_watched_movies[st.session_state.user_watched_movies["id"] == key]
-    btn_watch = None
-    btn_unwatch = None
-    if row.empty:
-      btn_watch = st.button("Already Watched?",key=key,use_container_width=True,type="primary")
-    else:
-      btn_unwatch = st.button("Unwatch",key=key,use_container_width=True)
+#Loads movies
+movie_card_with_buttons(df=df)
 
-  if btn_watch:
-    row = df[df["id"] == key]
-    print(row)
-    st.session_state.user_watched_movies = pd.concat([st.session_state.user_watched_movies,row],ignore_index=True)
-    st.session_state.user_watched_movies.to_csv(f"user/content/movies/{st.session_state.email}.csv")
-  if btn_unwatch:
-    st.session_state.user_watched_movies = st.session_state.user_watched_movies[~(st.session_state.user_watched_movies["id"] == key)]
-    st.session_state.user_watched_movies.to_csv(f"user/content/movies/{st.session_state.email}.csv")
-  i += 1
-
-# df = chunks[current_chunk-1]
+#Loads pagination controls
 total_chunks = len(chunks)
 col1, col2, col3 = st.columns([1, 2, 1])
 with col1:
   st.button("⬅️ Previous", 
   on_click=lambda: st.session_state.update(movie_chunk_index=st.session_state.movie_chunk_index - 1),
   disabled=st.session_state.movie_chunk_index == 0)
-
+with col2:
+  st.markdown(f"<div style='text-align:center;'>Page {st.session_state.movie_chunk_index + 1} of {total_chunks}</div>", unsafe_allow_html=True)
 with col3:
   st.button("Next ➡️", 
   on_click=lambda: st.session_state.update(movie_chunk_index=st.session_state.movie_chunk_index + 1),
   disabled=st.session_state.movie_chunk_index >= total_chunks - 1)
-
-with col2:
-  st.markdown(f"<div style='text-align:center;'>Page {st.session_state.movie_chunk_index + 1} of {total_chunks}</div>", unsafe_allow_html=True)
 

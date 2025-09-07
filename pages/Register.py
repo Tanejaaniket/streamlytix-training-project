@@ -1,24 +1,16 @@
 import streamlit as st
-from db import register_user
-import pandas as pd
-from user.user_info import init_user,init_watched_content
+from utils.db import register_user
+from utils.helper import init_user,init_watched_content
 
-if "name" in st.session_state:
+#Public route protection
+if ("name" in st.session_state and st.session_state.name != None) and "email" in st.session_state:
   st.switch_page("pages/Content.py")
-  
+
+#Initialize users session states  
 init_user()
 
-if st.session_state.logged_in:
-  st.switch_page("pages/Content.py")
-  st.stop()
-
-st.markdown("""
-    <style>
-              
-    </style>
-  """,unsafe_allow_html=True)
-
-with st.form("form2"):
+#Registration Form
+with st.form("register_form"):
   st.markdown("""
     <h2 style="text-align: center">Welcome back to Streamlytix</h2>
   """,unsafe_allow_html=True)
@@ -28,6 +20,7 @@ with st.form("form2"):
   submit_btn = st.form_submit_button("Submit",use_container_width=True,type="primary")
   st.page_link("pages/Login.py",label="Already had a Streamlytix account? Click here to login")
 
+#Form validation checks
 if submit_btn:
   if (not name):
     st.error("Name is required")
