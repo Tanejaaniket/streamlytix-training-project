@@ -23,7 +23,6 @@ if option == "Movie":
     st.error("Please watch atleast one movie to continue.")
   else:
     movies = movies.dropna(axis=1)
-    # st.dataframe(movies)
     col1,col2 = st.columns(2,gap="large",border=True)
     with col1:
       # st.subheader("Total watch time")

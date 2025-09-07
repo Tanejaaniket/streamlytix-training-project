@@ -1,5 +1,5 @@
 import pandas as pd
-
+import pickle as pkl
 def get_movie_chunks():
     chunks = []
     for chunk in pd.read_csv("datasets/TMDB_movie_dataset_v11.csv",nrows=10000,chunksize=50):
@@ -16,3 +16,5 @@ def get_show_chunks():
 
 
 shows = get_show_chunks()
+
+

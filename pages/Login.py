@@ -1,6 +1,5 @@
 import streamlit as st
 from db import login_user
-import pandas as pd
 from user.user_info import init_user,init_watched_content
 
 if "name" in st.session_state:
@@ -39,6 +38,8 @@ if submit_btn:
       st.session_state.email = user["data"][2]
       init_watched_content()
       st.success("User login sucessfull")
+      # st.write(st.session_state.name)
+      # st.write(user)
       st.switch_page("pages/Content.py")
     else:
       st.error("Unable to log in please recheck your email and password")

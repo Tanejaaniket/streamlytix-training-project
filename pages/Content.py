@@ -1,10 +1,12 @@
 import streamlit as st
 from component.sidebar import sidebar
+import subprocess
 
 if "name" not in st.session_state:
   st.switch_page("pages/Login.py")
   
 sidebar()
+
 st.header(f"👋🏻 Hi there {st.session_state.name} Team Streamlytix welcomes you...")  
 st.markdown("""
   > Welcome to the world of movies and tv shows. Here are some quick instructions to help you get started to get insights about your watch history :
