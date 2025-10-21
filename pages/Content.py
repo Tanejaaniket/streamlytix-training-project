@@ -11,12 +11,12 @@ sidebar()
 #Page content
 st.header(f"👋🏻 Hi there {st.session_state.name} Team Streamlytix welcomes you...")  
 st.markdown("""
-  > Welcome to the world of movies and tv shows. Here are some quick instructions to help you get started to get insights about your watch history :
+  > Welcome to the world of movies and tv shows. Here are some quick instructions to help you get started to get insights, based on  your watch history :
   > - Starting with the app
   >   - Navigate to the required content (either shows or movies).
   >   - Mark the content as watched.
   >   - Make sure to mark enough content to get usefull insights.
-  >   - Enjoy your valuable insights.
+  >   - Enjoy your valuable insights and recommendations on what to watch next.
   > ---          
   > _Note: You can always search for your favourite movies and tv shows from the search option in the sidebar._
   >          
