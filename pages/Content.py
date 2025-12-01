@@ -1,15 +1,16 @@
 import streamlit as st
 from component.sidebar import sidebar
+from utils.helper import init_user
+# Private route protection
+# if "name" not in st.session_state or "email" not in st.session_state:
+#   st.switch_page("pages/Login.py")
 
-#Private route protection
-if "name" not in st.session_state or "email" not in st.session_state:
-  st.switch_page("pages/Login.py")
-
+init_user()
 #Loads sidebar  
 sidebar()
 
 #Page content
-st.header(f"👋🏻 Hi there {st.session_state.name} Team Streamlytix welcomes you...")  
+st.header(f"👋🏻 Hi there, Team Streamlytix welcomes you...")  
 st.markdown("""
   > Welcome to the world of movies and tv shows. Here are some quick instructions to help you get started to get insights, based on  your watch history :
   > - Starting with the app

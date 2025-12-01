@@ -1,6 +1,5 @@
 import streamlit as st
-import pandas as pd
-
+import pandas as pd 
 
 def series_card_with_buttons(df:pd.DataFrame)->None:
   cols = st.columns(3)
@@ -15,19 +14,26 @@ def series_card_with_buttons(df:pd.DataFrame)->None:
       row = st.session_state.user_watched_series[st.session_state.user_watched_series["id"] == key]
       btn_watch = None
       btn_unwatch = None
+      
       if row.empty:
-        btn_watch = st.button("Already Watched?",key=key,use_container_width=True,type="primary")
+        btn_watch = st.button("Already Watched?",key=f"watched_{key}",use_container_width=True,type="primary")
       else:
-        btn_unwatch = st.button("Unwatch",key=key,use_container_width=True)
+        btn_unwatch = st.button("Unwatch",key=f"unwatched_{key}",use_container_width=True)
 
-    if btn_watch:
-      row = df[df["id"] == key]
-      st.session_state.user_watched_series = pd.concat([st.session_state.user_watched_series,row],ignore_index=True)
-      st.session_state.user_watched_series.to_csv(f"user/content/series/{st.session_state.email}.csv")
-    if btn_unwatch:
-      st.session_state.user_watched_series = st.session_state.user_watched_series[~(st.session_state.user_watched_series["id"] == key)]
-      st.session_state.user_watched_series.to_csv(f"user/content/series/{st.session_state.email}.csv")
-    i += 1
+      if btn_watch:
+        row = df[df["id"] == key]
+        st.session_state.user_watched_series = pd.concat([st.session_state.user_watched_series,row],ignore_index=True)
+        st.session_state.user_watched_series.to_csv(f"user/content/series/{st.session_state.email}.csv")
+        # st.experimental_rerun()
+        st.rerun()
+        
+
+      if btn_unwatch:
+        st.session_state.user_watched_series = st.session_state.user_watched_series[~(st.session_state.user_watched_series["id"] == key)]
+        st.session_state.user_watched_series.to_csv(f"user/content/series/{st.session_state.email}.csv")
+        # st.experimental_rerun()
+        st.rerun()
+      i += 1
 
 def series_card_without_button(df:pd.DataFrame)->None:
   cols = st.columns(3)
@@ -56,19 +62,20 @@ def movie_card_with_buttons(df:pd.DataFrame)->None:
         btn_unwatch = None
         
         if row.empty:
-          btn_watch = st.button("Already Watched?",key=key,use_container_width=True,type="primary")
+          btn_watch = st.button("Already Watched?",key=f"watched_{key}",use_container_width=True,type="primary")
         else:
-          btn_unwatch = st.button("Unwatch",key=key,use_container_width=True)
+          btn_unwatch = st.button("Unwatch",key=f"unwatched_{key}",use_container_width=True)
 
-      if btn_watch:
-        row = df[df["id"] == key]
-        st.session_state.user_watched_movies = pd.concat([st.session_state.user_watched_movies,row],ignore_index=True)
-        st.session_state.user_watched_movies.to_csv(f"user/content/movies/{st.session_state.email}.csv")
-      
-      if btn_unwatch:
-        st.session_state.user_watched_movies = st.session_state.user_watched_movies[~(st.session_state.user_watched_movies["id"] == key)]
-        st.session_state.user_watched_movies.to_csv(f"user/content/movies/{st.session_state.email}.csv")
-      
+        if btn_watch:
+          row = df[df["id"] == key]
+          st.session_state.user_watched_movies = pd.concat([st.session_state.user_watched_movies,row],ignore_index=True)
+          st.session_state.user_watched_movies.to_csv(f"user/content/movies/{st.session_state.email}.csv")
+          st.rerun()
+        
+        if btn_unwatch:
+          st.session_state.user_watched_movies = st.session_state.user_watched_movies[~(st.session_state.user_watched_movies["id"] == key)]
+          st.session_state.user_watched_movies.to_csv(f"user/content/movies/{st.session_state.email}.csv")
+          st.rerun()
       i += 1
 
 def movie_card_without_buttons(df:pd.DataFrame)->None:

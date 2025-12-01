@@ -2,6 +2,7 @@ import psycopg2
 
 # Neon DB connection string
 conn_string = "postgresql://neondb_owner:npg_mBWGJ3ZoFM9Q@ep-old-recipe-a1odeuyt-pooler.ap-southeast-1.aws.neon.tech/users?sslmode=require&channel_binding=require"
+# conn_string =   'postgresql://neondb_owner:npg_pKXmtd9b2ZEA@ep-shiny-salad-agohmwmm-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
 
 try:
   conn = psycopg2.connect(conn_string)
