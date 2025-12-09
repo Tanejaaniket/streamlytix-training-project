@@ -43,7 +43,6 @@ def login_user(data):
       WHERE email = %s AND password = %s;
     """,data)
     user_details = cur.fetchone()
-    print(user_details)
     if user_details == None:
       return api_error("No user found")
     print("Login sucessfully")
@@ -62,7 +61,7 @@ def verify_user(data):
     user_details = cur.fetchone()
     if user_details == None:
       return api_error("No such user found")
-    print("verification sucessfully",user_details)
+    print("verification sucessfully")
     return api_response(user_details)
   except Exception as e:
     print(e)
